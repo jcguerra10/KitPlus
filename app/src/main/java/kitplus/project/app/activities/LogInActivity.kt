@@ -1,13 +1,12 @@
 package kitplus.project.app.activities
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
-import kitplus.project.app.R
 import kitplus.project.app.databinding.ActivityLoginBinding
-import kitplus.project.app.databinding.ActivityMainBinding
 
 class LogInActivity : AppCompatActivity() {
 
@@ -20,11 +19,16 @@ class LogInActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.logInBtn.setOnClickListener {
+            var mail = binding.editTextTextPersonName.text.toString()
+            var pass = binding.editTextTextPassword.text.toString()
+
+
 
         }
 
         binding.newAccountBtn.setOnClickListener {
-            
+            val intent = Intent(this, CreateAccount::class.java)
+            startActivity(intent)
         }
 
     }

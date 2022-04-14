@@ -3,7 +3,6 @@ package kitplus.project.app.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kitplus.project.app.R
 import kitplus.project.app.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

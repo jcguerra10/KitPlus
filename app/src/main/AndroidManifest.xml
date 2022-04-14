@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="kitplus.project.app" >
+    package="kitplus.project.app">
 
     <application
         android:allowBackup="true"
@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kitplus">
+        <activity
+            android:name=".activities.CreateAccount"
+            android:exported="false" />
         <activity
             android:name=".activities.LogInActivity"
             android:exported="false" />
