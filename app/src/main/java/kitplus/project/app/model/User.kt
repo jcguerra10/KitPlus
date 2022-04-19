@@ -3,15 +3,15 @@ package kitplus.project.app.model
 class User {
     var userid : String
     var name: String
-    var weightUser: Double
-    var heightUser: Double
+    var weightUser: String
+    var heightUser: String
     var birthday: String
 
     constructor(
         userid: String,
         name: String,
-        weightUser: Double,
-        heightUser: Double,
+        weightUser: String,
+        heightUser: String,
         birthday: String
     ) {
         this.userid = userid

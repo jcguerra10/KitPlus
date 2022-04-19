@@ -13,14 +13,12 @@ import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import kitplus.project.app.databinding.ActivityCreateaccountBinding
 import kitplus.project.app.model.Profile
-import kitplus.project.app.model.User
 import kitplus.project.app.units.Constants
 import kitplus.project.app.units.WebUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CreateAccount : AppCompatActivity() {
@@ -43,7 +41,12 @@ class CreateAccount : AppCompatActivity() {
                 var resultString = ""
                 for (i in spl) {
                     if (i != "") {
-                        resultString += "$i-"
+                        if (i != spl[spl.size-1]) {
+                            resultString += "$i-"
+                        } else {
+                            resultString += "$i"
+                        }
+
                     }
                 }
                 username = resultString
@@ -52,9 +55,13 @@ class CreateAccount : AppCompatActivity() {
             if (binding.passwordFirst.text.toString().equals(binding.passwordSecond.text.toString())) {
                 val password = binding.passwordFirst.text.toString()
                 existProfile(username)
-                if (existProfile) {
+                if (!existProfile) {
                     idOfUser = UUID.randomUUID().toString()
-                    createUser(Profile(username, password, idOfUser))
+                    createProfile(Profile(username, password, idOfUser))
+
+                    val intent = Intent(this, CreateUser::class.java)
+                    intent.putExtra("idOfUser", idOfUser)
+                    startActivity(intent)
                 } else {
                     binding.usernameTxt.setText("")
                     Toast.makeText(applicationContext, "Username Already Exist", Toast.LENGTH_SHORT).show()
@@ -107,7 +114,7 @@ class CreateAccount : AppCompatActivity() {
         }
     }
 
-    private fun createUser(newProfile: Profile) {
+    private fun createProfile(newProfile: Profile) {
         val json = Gson().toJson(newProfile)
 
         lifecycleScope.launch(Dispatchers.IO) {
