@@ -1,6 +1,7 @@
 package kitplus.project.app.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,12 +9,26 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
 import kitplus.project.app.databinding.ActivityCreateaccountBinding
+import kitplus.project.app.model.Profile
+import kitplus.project.app.model.User
+import kitplus.project.app.units.Constants
+import kitplus.project.app.units.WebUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CreateAccount : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateaccountBinding
+
+    var idOfUser: String = ""
+    var existProfile: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +37,28 @@ class CreateAccount : AppCompatActivity() {
         setContentView(view)
 
         binding.createAccountBtn.setOnClickListener {
-            val username = binding.usernameTxt
+            var username = binding.usernameTxt.text.toString()
+            if (username.contains(".")) {
+                var spl = username.split(".")
+                var resultString = ""
+                for (i in spl) {
+                    if (i != "") {
+                        resultString += "$i-"
+                    }
+                }
+                username = resultString
+            }
+
             if (binding.passwordFirst.text.toString().equals(binding.passwordSecond.text.toString())) {
-                val password = binding.passwordFirst
-
-                //save user
-
+                val password = binding.passwordFirst.text.toString()
+                existProfile(username)
+                if (existProfile) {
+                    idOfUser = UUID.randomUUID().toString()
+                    createUser(Profile(username, password, idOfUser))
+                } else {
+                    binding.usernameTxt.setText("")
+                    Toast.makeText(applicationContext, "Username Already Exist", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(applicationContext, "Password don´t match", Toast.LENGTH_SHORT).show()
             }
@@ -52,6 +83,37 @@ class CreateAccount : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun existProfile(username: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val url = "${Constants.BASE_URL}/profiles.json"
+            val response = WebUtil().GETRequest(url)
+            if (response != null) {
+                val jsonObject = JSONObject(response)
+
+                existProfile = false
+
+                jsonObject.keys().forEach {
+                    val itemStr = jsonObject.get(it).toString()
+                    val profile = Gson().fromJson(itemStr, Profile::class.java)
+
+                    if (profile.username == username){
+                        existProfile = true
+                        return@launch
+                    }
+                }
+            }
+        }
+    }
+
+    private fun createUser(newProfile: Profile) {
+        val json = Gson().toJson(newProfile)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val url = "${Constants.BASE_URL}/profiles/${newProfile.username}.json"
+            WebUtil().PUTRequest(url, json)
+        }
     }
 
     //touch and hide the keyboard
