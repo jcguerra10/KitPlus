@@ -8,6 +8,8 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kitplus.project.app.databinding.ActivityCreateuserBinding
 import kitplus.project.app.model.User
@@ -20,6 +22,7 @@ class CreateUser : AppCompatActivity() {
 
     private var idOfUser: String? = null
     private lateinit var binding: ActivityCreateuserBinding
+    private val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +53,7 @@ class CreateUser : AppCompatActivity() {
     }
 
     private fun createUser(newUser: User) {
-        val json = Gson().toJson(newUser)
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            val url = "${Constants.BASE_URL}/users/${newUser.userid}.json"
-            WebUtil().PUTRequest(url, json)
-        }
+        db.collection("users").document(newUser.userid).set(newUser)
     }
 
     //touch and hide the keyboard

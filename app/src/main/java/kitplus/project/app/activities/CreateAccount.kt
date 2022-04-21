@@ -10,6 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kitplus.project.app.databinding.ActivityCreateaccountBinding
 import kitplus.project.app.model.Profile
@@ -23,7 +25,10 @@ import java.util.*
 
 class CreateAccount : AppCompatActivity() {
 
+    private var auth: Boolean = false
     private lateinit var binding: ActivityCreateaccountBinding
+
+    private val db = Firebase.firestore
 
     var idOfUser: String = ""
     var existProfile: Boolean = false
@@ -36,7 +41,7 @@ class CreateAccount : AppCompatActivity() {
 
         binding.createAccountBtn.setOnClickListener {
             var username = binding.usernameTxt.text.toString()
-            if (username.contains(".")) {
+            /*if (username.contains(".")) {
                 var spl = username.split(".")
                 var resultString = ""
                 for (i in spl) {
@@ -50,12 +55,12 @@ class CreateAccount : AppCompatActivity() {
                     }
                 }
                 username = resultString
-            }
+            }*/
 
             if (binding.passwordFirst.text.toString().equals(binding.passwordSecond.text.toString())) {
                 val password = binding.passwordFirst.text.toString()
-                existProfile(username)
-                if (!existProfile) {
+                authenticator(username)
+                if (!auth) {
                     idOfUser = UUID.randomUUID().toString()
                     createProfile(Profile(username, password, idOfUser))
 
@@ -92,7 +97,7 @@ class CreateAccount : AppCompatActivity() {
         })
     }
 
-    private fun existProfile(username: String) {
+    /*private fun existProfile(username: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             val url = "${Constants.BASE_URL}/profiles.json"
             val response = WebUtil().GETRequest(url)
@@ -112,14 +117,23 @@ class CreateAccount : AppCompatActivity() {
                 }
             }
         }
-    }
+    }*/
 
     private fun createProfile(newProfile: Profile) {
-        val json = Gson().toJson(newProfile)
+        db.collection("profiles").document(newProfile.username).set(newProfile)
+    }
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            val url = "${Constants.BASE_URL}/profiles/${newProfile.username}.json"
-            WebUtil().PUTRequest(url, json)
+    private fun authenticator(profileUsername: String) {
+        auth = false
+        val query = db.collection( "profiles"). whereEqualTo( "username", profileUsername)
+        query.get().addOnCompleteListener {
+            for (document in it.result!!) {
+                val profile = document.toObject(Profile::class.java)
+                if (profile.username == profileUsername) {
+                    auth = true
+                    break
+                }
+            }
         }
     }
 

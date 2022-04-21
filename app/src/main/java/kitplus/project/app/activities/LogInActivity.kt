@@ -4,12 +4,18 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kitplus.project.app.databinding.ActivityLoginBinding
 import kitplus.project.app.model.Profile
+import kitplus.project.app.model.User
 import kitplus.project.app.units.Constants
 import kitplus.project.app.units.WebUtil
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +28,8 @@ class LogInActivity : AppCompatActivity() {
     private var profileLogIn: String = ""
     private lateinit var binding: ActivityLoginBinding
 
+    private val db = Firebase.firestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -29,32 +37,13 @@ class LogInActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.logInBtn.setOnClickListener {
+            Log.e(">>>", "")
             var username = binding.editTextTextPersonName.text.toString()
             var pass = binding.editTextTextPassword.text.toString()
 
-            if (username.contains(".")) {
-                var spl = username.split(".")
-                var resultString = ""
-                for (i in spl) {
-                    if (i != "") {
-                        if (i != spl[spl.size-1]) {
-                            resultString += "$i-"
-                        } else {
-                            resultString += "$i"
-                        }
-
-                    }
-                }
-                username = resultString
-            }
 
             authenticator(username, pass)
 
-            if (auth) {
-                val intent = Intent(this, ControllerActivity::class.java)
-                intent.putExtra("profile", profileLogIn)
-                startActivity(intent)
-            }
         }
 
         binding.newAccountBtn.setOnClickListener {
@@ -64,7 +53,7 @@ class LogInActivity : AppCompatActivity() {
 
     }
 
-    private fun authenticator(username: String, password: String) {
+    /*private fun authenticator(username: String, password: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             val url = "${Constants.BASE_URL}/profiles.json"
             val response = WebUtil().GETRequest(url)
@@ -85,6 +74,29 @@ class LogInActivity : AppCompatActivity() {
                 }
             }
         }
+    }*/
+
+    private fun authenticator(username: String, password: String): Task<QuerySnapshot> {
+        val query = db.collection( "profiles"). whereEqualTo( "username", username)
+        var resul = query.get().addOnCompleteListener {
+            auth = false
+            it.result!!.forEach {
+
+                val profile = it.toObject(Profile::class.java)
+                Log.e(">>" , "${profile.username} ${profile.password}")
+                Log.e(">>", "$username $password")
+                if (profile.username == username && profile.password == password) {
+                    Log.e("!!!", "Entró")
+                    auth = true
+                    Log.e("!!", "Entroo")
+                    val intent = Intent(this, ControllerActivity::class.java)
+                    intent.putExtra("profile", profileLogIn)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        return resul
     }
 
     //touch and hide the keyboard
