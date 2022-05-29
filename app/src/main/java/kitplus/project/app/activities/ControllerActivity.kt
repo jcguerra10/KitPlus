@@ -19,6 +19,9 @@ class ControllerActivity : AppCompatActivity() {
         binding = ActivityControllerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        overviewFragment = OverviewFragment.newInstance()
+        productivityFragment = ProductivityFragment.newInstance()
+
         showFragment(overviewFragment)
 
         binding.navigator.setOnItemSelectedListener { menuItem ->
@@ -37,6 +40,8 @@ class ControllerActivity : AppCompatActivity() {
     }
 
     private fun showFragment(fragment : Fragment) {
-
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainer, fragment)
+        transaction.commit()
     }
 }
