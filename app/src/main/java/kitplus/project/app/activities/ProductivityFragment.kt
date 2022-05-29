@@ -6,15 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kitplus.project.app.R
+import kitplus.project.app.databinding.FragmentProductivityBinding
 
 class ProductivityFragment : Fragment() {
+
+    private lateinit var binding: FragmentProductivityBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_productivity, container, false)
+        binding = FragmentProductivityBinding.inflate(layoutInflater)
+
+
+
+        return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
     }
 
     companion object {

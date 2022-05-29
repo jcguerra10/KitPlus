@@ -14,7 +14,7 @@ import kitplus.project.app.model.User
 
 class ControllerActivity : AppCompatActivity() {
 
-    private lateinit var user: User
+    lateinit var user: User
     private lateinit var binding: ActivityControllerBinding
 
     private lateinit var overviewFragment : OverviewFragment
