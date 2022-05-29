@@ -86,12 +86,12 @@
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/textView13"
-            app:layout_constraintStart_toStartOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintEnd_toEndOf="@+id/birthdayView"
+            app:layout_constraintStart_toStartOf="@+id/birthdayView"
+            app:layout_constraintTop_toBottomOf="@+id/birthdayView" />
 
         <EditText
-            android:id="@+id/editTextNumberDecimal2"
+            android:id="@+id/heightEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -116,15 +116,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Update"
-            android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal2" />
+            app:layout_constraintTop_toBottomOf="@+id/heightEditText" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/birthdayView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
