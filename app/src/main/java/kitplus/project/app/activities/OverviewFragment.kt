@@ -23,15 +23,13 @@ class OverviewFragment : Fragment() {
     ): View? {
         _binding = FragmentOverviewBinding.inflate(inflater, container, false)
 
-        user = (activity as ControllerActivity).user
-
         binding.constraintExcersice.setOnClickListener {
-
+            user = (activity as ControllerActivity).user
             println(">>>>>>>>>>>> " + user.userid)
         }
 
         binding.constraintWater.setOnClickListener {
-
+            user = (activity as ControllerActivity).user
         }
 
         var progress : Int = binding.progressBar.progress
