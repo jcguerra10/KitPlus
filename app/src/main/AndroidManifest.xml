@@ -3,6 +3,7 @@
     package="kitplus.project.app" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
 
     <application
         android:allowBackup="true"
@@ -13,12 +14,15 @@
         android:theme="@style/Theme.Kitplus" >
         <activity
             android:name=".activities.ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.profile"
             android:exported="false"
             android:label="@string/title_activity_profile"
             android:theme="@style/Theme.Kitplus.NoActionBar" />
+<!--        <activity-->
+<!--            android:name=".activities.ProfileActivity"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/title_activity_profile"-->
+<!--            android:theme="@style/Theme.Kitplus.NoActionBar" />-->
+
         <activity
             android:name=".activities.ControllerActivity"
             android:exported="false" />
