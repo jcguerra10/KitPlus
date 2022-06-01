@@ -34,7 +34,7 @@ class CreateUser : AppCompatActivity() {
 
             if (idOfUser != null) {
                 val newUser =
-                    idOfUser?.let { it1 -> User(it1, nameTxt, weightTxt, heightTxt, birthdayDp) }
+                    idOfUser?.let { it1 -> User(it1, nameTxt, weightTxt, heightTxt, birthdayDp, listOf(), listOf()) }
 
                 if (newUser != null) {
                     createUser(newUser)

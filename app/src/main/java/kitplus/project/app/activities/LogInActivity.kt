@@ -55,12 +55,11 @@ class LogInActivity : AppCompatActivity() {
                 if (profile.username == username && profile.password == password) {
                     auth = true
                     val intent = Intent(this, ControllerActivity::class.java)
-                    intent.putExtra("profile", profileLogIn)
+                    intent.putExtra("profile", profile.userid)
                     startActivity(intent)
                 }
             }
         }
-
         return resul
     }
 
