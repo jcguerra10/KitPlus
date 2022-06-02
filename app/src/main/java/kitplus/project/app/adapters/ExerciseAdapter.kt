@@ -48,5 +48,8 @@ class ExerciseAdapter: RecyclerView.Adapter<ExerciseView>(), OnDeleteExercise {
         TODO("Not yet implemented")
     }
 
+    fun setExercises(exerciseController: ExerciseController) {
+        this.exerciseController = exerciseController
+    }
 
 }
