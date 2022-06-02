@@ -16,7 +16,7 @@ class ExerciseView (itemView: View): RecyclerView.ViewHolder(itemView) {
     var listener: OnDeleteExercise? = null
     var exercise: ExerciseRegistry? = null
 
-    val imagePrfView: ImageView = itemView.findViewById(R.id.imagePro)
+    val imageEView: ImageView = itemView.findViewById(R.id.imagePro)
     val nameTxt: TextView = itemView.findViewById(R.id.nameTxt)
     val kCalTxt: TextView = itemView.findViewById(R.id.kCalTxt)
     val dateTxt: TextView = itemView.findViewById(R.id.dateTxt)
