@@ -2,6 +2,7 @@ package kitplus.project.app.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.ktx.firestore
@@ -16,9 +17,6 @@ class ControllerActivity : AppCompatActivity() {
 
     lateinit var user: User
     private lateinit var binding: ActivityControllerBinding
-
-    private lateinit var overviewFragment : OverviewFragment
-    private lateinit var productivityFragment : ProductivityFragment
 
     private val db = Firebase.firestore
 
@@ -36,27 +34,30 @@ class ControllerActivity : AppCompatActivity() {
             user = Gson().fromJson(json, User::class.java)
         }
 
-        overviewFragment = OverviewFragment.newInstance()
-        productivityFragment = ProductivityFragment.newInstance()
-
-        showFragment(overviewFragment)
-
-
-        binding.navigator.setOnItemSelectedListener { menuItem ->
-            if (menuItem.itemId == R.id.overview){
-                showFragment(overviewFragment)
-            }else if(menuItem.itemId == R.id.productivity){
-                showFragment(productivityFragment)
-            }
-            true
-        }
-
         binding.profileImage.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             val jsonString = Gson().toJson(user)
             intent.putExtra("user", jsonString)
             startActivity(intent)
         }
+
+        binding.exerciseConstraint.setOnClickListener {
+            val intent = Intent(this, ActivityExerciseHome::class.java)
+            val jsonString = Gson().toJson(user)
+            intent.putExtra("user", jsonString)
+            startActivity(intent)
+        }
+
+        binding.hydrateConstraint.setOnClickListener {
+            //user = (activity as ControllerActivity).user
+            Toast.makeText(this, "Hydratation selected", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.stepsConstraint.setOnClickListener {
+            val intent = Intent(this, StepsActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun setUpUser(userid: String?) {
@@ -67,11 +68,5 @@ class ControllerActivity : AppCompatActivity() {
                 binding.userName.text = user.name
             }
         }
-    }
-
-    private fun showFragment(fragment : Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentContainer, fragment)
-        transaction.commit()
     }
 }

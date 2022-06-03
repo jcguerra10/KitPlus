@@ -1,44 +1,41 @@
 package kitplus.project.app.activities
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import kitplus.project.app.databinding.FragmentProductivityBinding
+import kitplus.project.app.R
+import kitplus.project.app.databinding.ActivityControllerBinding
+import kitplus.project.app.databinding.ActivityStepsBinding
 
-class ProductivityFragment : Fragment(), SensorEventListener {
+class StepsActivity : AppCompatActivity(), SensorEventListener {
 
-    private lateinit var binding: FragmentProductivityBinding
+    private lateinit var binding: ActivityStepsBinding
 
     private var sensorManager : SensorManager? = null
     private var running = false
     private var totalSteps = 0f
     private var previousTotalSteps = 0f
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentProductivityBinding.inflate(layoutInflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityStepsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         loadData()
         resetSteps()
-        sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        return binding.root
-    }
+        binding.returnBtn.setOnClickListener {
+            val intent = Intent(this, StepsActivity::class.java)
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = ProductivityFragment()
+        }
     }
 
     override fun onResume() {
@@ -47,7 +44,7 @@ class ProductivityFragment : Fragment(), SensorEventListener {
         val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
         if (stepSensor == null){
-            Toast.makeText(requireContext(), "No Sensor detected in this Device", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No Sensor detected in this Device", Toast.LENGTH_SHORT).show()
         }else{
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
         }
@@ -66,7 +63,7 @@ class ProductivityFragment : Fragment(), SensorEventListener {
 
     private fun resetSteps(){
         binding.stepsTaken.setOnClickListener {
-            Toast.makeText(requireContext(), "Long tap to Reset Steps", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Long tap to Reset Steps", Toast.LENGTH_SHORT).show()
         }
 
         binding.stepsTaken.setOnLongClickListener {
@@ -78,14 +75,14 @@ class ProductivityFragment : Fragment(), SensorEventListener {
     }
 
     private fun saveData() {
-        val sharedPreferences = requireContext().getSharedPreferences("My prefs", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("My prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putFloat("key1", previousTotalSteps)
         editor.apply()
     }
 
     private fun loadData(){
-        val sharedPreferences = requireContext().getSharedPreferences("My prefs", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("My prefs", Context.MODE_PRIVATE)
         val savedNumber = sharedPreferences.getFloat("key1", 0f)
         Log.d("Productivity Fragment", "$savedNumber")
         previousTotalSteps = savedNumber

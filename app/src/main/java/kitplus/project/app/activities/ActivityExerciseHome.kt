@@ -2,18 +2,11 @@ package kitplus.project.app.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
-import kitplus.project.app.R
 import kitplus.project.app.adapters.ExerciseAdapter
 import kitplus.project.app.controller.ExerciseController
-import kitplus.project.app.databinding.ActivityControllerBinding
 import kitplus.project.app.databinding.ActivityExerciseHomeBinding
-import kitplus.project.app.model.User
+import kitplus.project.app.fragment_hydration.Companion.newInstance
 
 class ActivityExerciseHome : AppCompatActivity()  {
 
@@ -35,6 +28,8 @@ class ActivityExerciseHome : AppCompatActivity()  {
         exerciseRecycler.setHasFixedSize(true)
         exerciseRecycler.layoutManager = LinearLayoutManager(this)
         exerciseRecycler.adapter = exerciseAdapter
+
+
         setContentView(binding.root)
 
 
