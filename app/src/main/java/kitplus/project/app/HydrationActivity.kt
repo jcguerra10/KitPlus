@@ -45,5 +45,5 @@ class HydrationActivity : AppCompatActivity() {
             true
         }
     }
-    
+
 }
