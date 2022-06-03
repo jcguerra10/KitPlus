@@ -41,6 +41,19 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13"
         tools:layout_editor_absoluteX="24dp" />
 
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Add Workout"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exercisesSumary" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exercisesSumary"
         android:layout_width="410dp"
@@ -57,13 +70,15 @@
         style="@null"
         android:layout_width="125dp"
         android:layout_height="39dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:backgroundTint="@color/black"
         android:shadowColor="@color/black"
-        android:text="Show more"
+        android:text="Register"
         android:textColor="#F8F8F8"
         android:textSize="10sp"
-        app:strokeColor="@color/black"
-        tools:layout_editor_absoluteX="283dp"
-        tools:layout_editor_absoluteY="110dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exercisesSumary"
+        app:strokeColor="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

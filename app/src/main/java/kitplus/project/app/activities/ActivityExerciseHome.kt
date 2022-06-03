@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import kitplus.project.app.R
 import kitplus.project.app.adapters.ExerciseAdapter
 import kitplus.project.app.controller.ExerciseController
+import kitplus.project.app.databinding.ActivityControllerBinding
 import kitplus.project.app.databinding.ActivityExerciseHomeBinding
+import kitplus.project.app.model.User
 
-class ActivityExerciseHome : Fragment() {
+class ActivityExerciseHome : AppCompatActivity()  {
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -24,21 +27,16 @@ class ActivityExerciseHome : Fragment() {
     private lateinit var binding: ActivityExerciseHomeBinding
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = ActivityExerciseHomeBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityExerciseHomeBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(itemView, savedInstanceState)
-        binding.exercisesSumary.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = exerciseAdapter
-            exerciseAdapter.setExercises(exerciseController)
-        }
+        val exerciseRecycler = binding.exercisesSumary
+        exerciseRecycler.setHasFixedSize(true)
+        exerciseRecycler.layoutManager = LinearLayoutManager(this)
+        exerciseRecycler.adapter = exerciseAdapter
+        setContentView(binding.root)
+
+
     }
 }
