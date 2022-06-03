@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import kitplus.project.app.HydrationActivity
 import kitplus.project.app.R
 import kitplus.project.app.databinding.ActivityControllerBinding
 import kitplus.project.app.model.Profile
@@ -49,8 +50,8 @@ class ControllerActivity : AppCompatActivity() {
         }
 
         binding.hydrateConstraint.setOnClickListener {
-            //user = (activity as ControllerActivity).user
-            Toast.makeText(this, "Hydratation selected", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, HydrationActivity::class.java)
+            startActivity(intent)
         }
 
         binding.stepsConstraint.setOnClickListener {

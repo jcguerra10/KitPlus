@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kitplus.project.app.adapters.ExerciseAdapter
 import kitplus.project.app.controller.ExerciseController
 import kitplus.project.app.databinding.ActivityExerciseHomeBinding
-import kitplus.project.app.fragment_hydration.Companion.newInstance
 
 class ActivityExerciseHome : AppCompatActivity()  {
 
