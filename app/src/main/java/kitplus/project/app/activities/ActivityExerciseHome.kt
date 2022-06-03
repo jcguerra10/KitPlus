@@ -13,8 +13,7 @@ class ActivityExerciseHome : AppCompatActivity()  {
 
     private lateinit var exerciseController: ExerciseController
 
-    private lateinit var exerciseAdapter: ExerciseAdapter
-
+    private var adapter = ExerciseAdapter()
 
     private lateinit var binding: ActivityExerciseHomeBinding
 
@@ -26,7 +25,7 @@ class ActivityExerciseHome : AppCompatActivity()  {
         val exerciseRecycler = binding.exercisesSumary
         exerciseRecycler.setHasFixedSize(true)
         exerciseRecycler.layoutManager = LinearLayoutManager(this)
-        exerciseRecycler.adapter = exerciseAdapter
+        exerciseRecycler.adapter = adapter
 
 
         setContentView(binding.root)
