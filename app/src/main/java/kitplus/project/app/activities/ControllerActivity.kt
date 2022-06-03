@@ -56,6 +56,8 @@ class ControllerActivity : AppCompatActivity() {
 
         binding.stepsConstraint.setOnClickListener {
             val intent = Intent(this, StepsActivity::class.java)
+            val jsonString = Gson().toJson(user)
+            intent.putExtra("user", jsonString)
             startActivity(intent)
         }
 

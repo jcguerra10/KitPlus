@@ -1,5 +1,6 @@
 package kitplus.project.app.activities
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
@@ -10,23 +11,33 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import kitplus.project.app.R
-import kitplus.project.app.databinding.ActivityControllerBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kitplus.project.app.databinding.ActivityStepsBinding
+import kitplus.project.app.model.User
 
 class StepsActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var binding: ActivityStepsBinding
+
+    private lateinit var user: User
 
     private var sensorManager : SensorManager? = null
     private var running = false
     private var totalSteps = 0f
     private var previousTotalSteps = 0f
 
+    private val db = Firebase.firestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStepsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val bundle = intent.extras
+        val json = bundle?.getString("user")
+        user = Gson().fromJson(json, User::class.java)
 
         loadData()
         resetSteps()
@@ -89,4 +100,19 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
     }
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
     }
+
+    private fun saveStepsToFirestore(steps: Float) {
+        val userDB = db.collection("users").document(user.userid)
+
+        userDB.update("steps", steps).addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+
+    }
+
+    private fun getStepsToFirestore(): Float {
+        val userDB = db.collection("users").document("${user.userid}")
+
+        return userDB.get().result.get("steps") as Float
+    }
+
 }
