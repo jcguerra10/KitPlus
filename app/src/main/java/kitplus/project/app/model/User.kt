@@ -7,6 +7,8 @@ data class User(
     var heightUser: String = "" ,
     var birthday: String = "",
     var water: List<WaterRegistry> = listOf(),
+    var coffe: List<WaterRegistry> = listOf(),
+    var soda: List<WaterRegistry> = listOf(),
     var exercise: List<ExerciseRegistry> = listOf(),
     var steps: Float = 0f
 )

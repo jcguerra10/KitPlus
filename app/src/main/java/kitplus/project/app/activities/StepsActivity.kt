@@ -42,11 +42,6 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         loadData()
         resetSteps()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
-        binding.returnBtn.setOnClickListener {
-            val intent = Intent(this, StepsActivity::class.java)
-
-        }
     }
 
     override fun onResume() {

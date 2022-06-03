@@ -1,15 +1,27 @@
 package kitplus.project.app
 
+import android.R
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kitplus.project.app.activities.ControllerActivity
 import kitplus.project.app.databinding.ActivityControllerBinding
 import kitplus.project.app.databinding.ActivityHydrationBinding
+import kitplus.project.app.model.User
+import kitplus.project.app.model.WaterRegistry
 
 class HydrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHydrationBinding
+
+    private lateinit var user: User
+
+    private val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,59 +29,21 @@ class HydrationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.addWaterBtn.setOnClickListener {
-            var counter = Integer.parseInt(binding.counterWater.text.toString())
-            counter += 1
-            binding.counterWater.text = counter.toString()
+            var counterwater = Integer.parseInt(binding.counterWater.text.toString())
+            counterwater += 1
+            binding.counterWater.text = counterwater.toString()
         }
 
         binding.subWaterBtn.setOnClickListener {
-            var counter = Integer.parseInt(binding.counterWater.text.toString())
-            counter -= 1
-            binding.counterWater.text = counter.toString()
+            var counterwater = Integer.parseInt(binding.counterWater.text.toString())
+            counterwater -= 1
+            binding.counterWater.text = counterwater.toString()
         }
 
         binding.subWaterBtn.setOnLongClickListener {
             binding.counterWater.text = 0.toString()
             true
         }
-
-        binding.addCoffeeBtn.setOnClickListener {
-            var counter = Integer.parseInt(binding.counterCoffee.text.toString())
-            counter += 1
-            binding.counterWater.text = counter.toString()
-        }
-
-        binding.subCoffeeBtn.setOnClickListener {
-            var counter = Integer.parseInt(binding.counterCoffee.text.toString())
-            counter -= 1
-            binding.counterWater.text = counter.toString()
-        }
-
-        binding.subCoffeeBtn.setOnLongClickListener {
-            binding.counterCoffee.text = 0.toString()
-            true
-        }
-
-        binding.addSodaBtn.setOnClickListener {
-            var counter = Integer.parseInt(binding.counterSoda.text.toString())
-            counter += 1
-            binding.counterWater.text = counter.toString()
-        }
-
-        binding.subSodaBtn.setOnClickListener {
-            var counter = Integer.parseInt(binding.counterSoda.text.toString())
-            counter -= 1
-            binding.counterWater.text = counter.toString()
-        }
-
-        binding.subSodaBtn.setOnLongClickListener {
-            binding.counterSoda.text = 0.toString()
-            true
-        }
-
-        binding.returnButton.setOnClickListener {
-            val intent = Intent(this, ControllerActivity::class.java)
-            startActivity(intent)
-        }
     }
+    
 }
