@@ -61,9 +61,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
             binding.stepsTaken.text = ("$currentSteps")
 
-            binding.circularProgressBar.apply {
-                setProgressWithAnimation(currentSteps.toFloat())
-            }
+//            binding.circularProgressBar.apply {
+//                setProgressWithAnimation(currentSteps.toFloat())
+//            }
         }
     }
 
