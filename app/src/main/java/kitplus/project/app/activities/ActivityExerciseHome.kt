@@ -11,6 +11,7 @@ import kitplus.project.app.adapters.ExerciseAdapter
 import kitplus.project.app.controller.ExerciseController
 import kitplus.project.app.databinding.ActivityExerciseHomeBinding
 import kitplus.project.app.model.ExerciseRegistry
+import kitplus.project.app.model.enums.Exercises
 import java.util.*
 
 
@@ -38,7 +39,7 @@ class ActivityExerciseHome : AppCompatActivity()  {
         setContentView(binding.root)
 
         val arraySpinner = arrayOf(
-            "1", "2", "3", "4", "5", "6", "7"
+            "--Workouts--", "Running", "Cycling", "Gym"
         )
 
         val adapter = ArrayAdapter(
@@ -57,9 +58,20 @@ class ActivityExerciseHome : AppCompatActivity()  {
             val minute = c.get(Calendar.MINUTE)
 
             val currentTime = "$hour/$minute"
-            Exercice e
+            var e: Exercises? = null;
 
-            exerciseController.addExercise(ExerciseRegistry("", "", "", ))
+            if(binding.spinner.selectedItem == "Running"){
+
+                e = Exercises.Cycling;
+            }else if(binding.spinner.selectedItem == "Cycling"){
+
+                e = Exercises.Cycling
+            }else{
+
+                e = Exercises.Gym
+            }
+
+            exerciseController.addExercise(ExerciseRegistry("", "", "200", e, currentTime))
         }
 
     }
